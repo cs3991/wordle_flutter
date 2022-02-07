@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class LetterTile extends StatelessWidget {
+  const LetterTile({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -15,7 +17,8 @@ class LetterTile extends StatelessWidget {
         child: Center(
           child: Text(
             'L',
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: Theme.of(context).colorScheme.onTertiaryContainer),
           ),
         ),
       ),

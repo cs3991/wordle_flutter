@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'letter_tile.dart';
 
 class Word extends StatelessWidget {
+  const Word({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Padding(
