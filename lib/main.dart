@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wordle/grid/ui/grid.dart';
 
 void main() {
   runApp(const MyApp());
@@ -48,6 +49,9 @@ class _GridPageState extends State<GridPage> {
       ),
       body: Container(
         color: Theme.of(context).colorScheme.background,
+        child: Center(
+          child: Grid(),
+        ),
       ),
     );
   }
