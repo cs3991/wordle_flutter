@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordle/keyboard/ui/keyboard.dart';
+import 'package:wordle/theme/brightness_cubit.dart';
 
 import 'grid/ui/grid.dart';
 
@@ -16,13 +18,34 @@ class WordlePage extends StatelessWidget {
         toolbarHeight: 64,
         elevation: 0,
         actions: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Icon(
-              Icons.settings,
-              color: Theme.of(context).colorScheme.onSurface,
+          IconButton(
+            icon: Padding(
+              padding: const EdgeInsets.only(right: 24),
+              child: BlocBuilder<BrightnessCubit, Brightness>(
+                builder: (context, brightness) {
+                  return Icon(
+                    brightness == Brightness.dark
+                        ? Icons.light_mode_rounded
+                        : Icons.dark_mode_rounded,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  );
+                },
+              ),
             ),
-          )
+            onPressed: () {
+              BlocProvider.of<BrightnessCubit>(context).switchBrightness();
+            },
+          ),
+          IconButton(
+            icon: Padding(
+              padding: const EdgeInsets.only(right: 16),
+              child: Icon(
+                Icons.settings,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+            ),
+            onPressed: () {},
+          ),
         ],
       ),
       body: Container(
