@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'letter_tile.dart';
 
 class Word extends StatelessWidget {
-  const Word({Key? key}) : super(key: key);
+  final int wordIndex;
+
+  const Word({Key? key, required this.wordIndex}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,14 +13,13 @@ class Word extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          LetterTile(),
-          LetterTile(),
-          LetterTile(),
-          LetterTile(),
-          LetterTile(),
-          LetterTile(),
-        ],
+        children: List.generate(
+          6,
+          (letterIndex) => LetterTile(
+            wordIndex: wordIndex,
+            letterIndex: letterIndex,
+          ),
+        ),
       ),
     );
   }

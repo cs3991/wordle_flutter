@@ -48,17 +48,15 @@ class WordlePage extends StatelessWidget {
           ),
         ],
       ),
-      body: Container(
-        color: Theme.of(context).colorScheme.background,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Grid(),
-            Keyboard(),
-          ],
-        ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Grid(),
+          Keyboard(),
+        ],
       ),
+      backgroundColor: Theme.of(context).colorScheme.background,
     );
   }
 }

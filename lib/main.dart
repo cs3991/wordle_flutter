@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wordle/game_logic/cubit/game_cubit.dart';
 import 'package:wordle/theme/brightness_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'wordle_page.dart';
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => BrightnessCubit()),
+        BlocProvider(create: (context) => GameCubit()),
       ],
       child: BlocBuilder<BrightnessCubit, Brightness>(
         builder: (context, brightness) {

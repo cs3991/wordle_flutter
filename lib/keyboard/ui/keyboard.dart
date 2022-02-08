@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wordle/game_logic/cubit/game_cubit.dart';
 import 'package:wordle/keyboard/ui/icon_key.dart';
 
 import 'keyboard_key.dart';
@@ -28,8 +30,16 @@ class Keyboard extends StatelessWidget {
             children: azertyLine3
                 .map((l) => LetterKey(letter: l) as KeyboardKey)
                 .followedBy([
-              IconKey(icon: Icons.backspace_outlined),
-              IconKey(icon: Icons.arrow_forward_rounded),
+              IconKey(
+                icon: Icons.backspace_outlined,
+                onPress: (context) =>
+                    BlocProvider.of<GameCubit>(context).deleteLetter(),
+              ),
+              IconKey(
+                icon: Icons.arrow_forward_rounded,
+                onPress: (context) =>
+                    BlocProvider.of<GameCubit>(context).submitWord(),
+              ),
             ]).toList(),
           ),
         ],

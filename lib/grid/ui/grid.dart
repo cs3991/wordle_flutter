@@ -7,14 +7,7 @@ class Grid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
-        Word(),
-        Word(),
-        Word(),
-        Word(),
-        Word(),
-        Word(),
-      ],
+      children: List.generate(6, (wordIndex) => Word(wordIndex: wordIndex)),
     );
   }
 }
