@@ -5,9 +5,9 @@ import 'keyboard_key.dart';
 import 'letter_key.dart';
 
 class Keyboard extends StatelessWidget {
-  static const azertyLine1 = ['a', 'z', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'];
-  static const azertyLine2 = ['q', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm'];
-  static const azertyLine3 = ['w', 'x', 'c', 'v', 'b', 'n'];
+  static const azertyLine1 = ['A', 'Z', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'];
+  static const azertyLine2 = ['Q', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M'];
+  static const azertyLine3 = ['W', 'X', 'C', 'V', 'B', 'N'];
 
   @override
   Widget build(BuildContext context) {
@@ -16,20 +16,20 @@ class Keyboard extends StatelessWidget {
       child: Column(
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: azertyLine1.map((l) => LetterKey(letter: l)).toList(),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: azertyLine2.map((l) => LetterKey(letter: l)).toList(),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: azertyLine3
                 .map((l) => LetterKey(letter: l) as KeyboardKey)
                 .followedBy([
-              IconKey(icon: Icons.arrow_back_ios_rounded),
-              IconKey(icon: Icons.send_rounded),
+              IconKey(icon: Icons.backspace_outlined),
+              IconKey(icon: Icons.arrow_forward_rounded),
             ]).toList(),
           ),
         ],
