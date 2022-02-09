@@ -59,15 +59,18 @@ class GameCubit extends Cubit<GameState> {
     }
 
     // check status of each letter
-    final visitedIndex = <int>[];
+    final visitedIndex = Set<int>();
+    final correctlyPlacedLetters = state.correctlyPlacedLetters.toSet();
+    final wronglyPlacedLetters = state.wronglyPlacedLetters.toSet();
+    final notInWordLetters = state.notInWordLetters.toSet();
     for (var i = 0; i < 6; i++) {
       final letter = submittedWord[i];
       if (state.word![i] == letter!) {
         state.statusMatrix[state.currentWordIndex][i] =
             LetterStatus.correctSpot;
         visitedIndex.add(i);
+        correctlyPlacedLetters.add(letter);
       }
-      print(visitedIndex);
     }
     for (var i = 0; i < 6; i++) {
       if (!visitedIndex.contains(i)) {
@@ -81,9 +84,11 @@ class GameCubit extends Cubit<GameState> {
           state.statusMatrix[state.currentWordIndex][i] =
               LetterStatus.wrongSpot;
           visitedIndex.add(i);
+          wronglyPlacedLetters.add(letter!);
         } else {
           state.statusMatrix[state.currentWordIndex][i] =
               LetterStatus.notInWord;
+          notInWordLetters.add(letter!);
         }
       }
     }
@@ -99,6 +104,13 @@ class GameCubit extends Cubit<GameState> {
       return;
     }
 
-    emit(state.copyWith(currentWordIndex: state.currentWordIndex + 1));
+    emit(state.copyWith(
+      currentWordIndex: state.currentWordIndex + 1,
+      correctlyPlacedLetters:
+          state.correctlyPlacedLetters.union(correctlyPlacedLetters),
+      wronglyPlacedLetters:
+          state.wronglyPlacedLetters.union(wronglyPlacedLetters),
+      notInWordLetters: state.notInWordLetters.union(notInWordLetters),
+    ));
   }
 }

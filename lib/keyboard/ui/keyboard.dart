@@ -30,18 +30,17 @@ class Keyboard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: azertyLine3
-            // ignore: unnecessary_cast
-                .map((l) => LetterKey(letter: l) as KeyboardKey)
+                // ignore: unnecessary_cast
+                .map((l) => LetterKey(letter: l) as Widget)
                 .followedBy([
               IconKey(
                 icon: Icons.backspace_outlined,
-                onPress: (context) =>
+                onPress: () =>
                     BlocProvider.of<GameCubit>(context).deleteLetter(),
               ),
               IconKey(
                 icon: Icons.arrow_forward_rounded,
-                onPress: (context) =>
-                    BlocProvider.of<GameCubit>(context).submitWord(),
+                onPress: () => BlocProvider.of<GameCubit>(context).submitWord(),
               ),
             ]).toList(),
           ),

@@ -29,7 +29,7 @@ class LetterTile extends StatelessWidget {
                       ? Colors.amber.withOpacity(0.30)
                       : status == LetterStatus.correctSpot
                           ? Colors.green.withOpacity(0.30)
-                          : Colors.grey.withOpacity(0.30),
+                          : Colors.black.withOpacity(0.25),
               borderRadius: BorderRadius.circular(16),
             ),
             height: 56,
