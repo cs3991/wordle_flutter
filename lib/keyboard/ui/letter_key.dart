@@ -4,15 +4,16 @@ import 'package:wordle/game_logic/cubit/game_cubit.dart';
 import 'package:wordle/keyboard/ui/keyboard_key.dart';
 
 class LetterKey extends KeyboardKey {
-  final String letter;
-
   LetterKey({Key? key, required this.letter})
       : super(
-            key: key,
-            flex: 1,
-            onPress: (context) {
-              BlocProvider.of<GameCubit>(context).addLetter(letter);
-            });
+          key: key,
+          flex: 1,
+          onPress: (context) {
+            BlocProvider.of<GameCubit>(context).addLetter(letter);
+          },
+        );
+
+  final String letter;
 
   @override
   Widget builder(BuildContext context) {

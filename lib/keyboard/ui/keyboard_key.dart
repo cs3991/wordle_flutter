@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 abstract class KeyboardKey extends StatelessWidget {
-  final int flex;
-  final void Function(BuildContext context) onPress;
-
   const KeyboardKey({Key? key, this.flex = 1, required this.onPress})
       : super(key: key);
+
+  final int flex;
+  final void Function(BuildContext context) onPress;
 
   Widget builder(BuildContext context);
 

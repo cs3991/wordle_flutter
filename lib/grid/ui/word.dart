@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'letter_tile.dart';
+import 'package:wordle/grid/ui/letter_tile.dart';
 
 class Word extends StatelessWidget {
-  final int wordIndex;
-
   const Word({Key? key, required this.wordIndex}) : super(key: key);
+
+  final int wordIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class Word extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(
           6,
-          (letterIndex) => LetterTile(
+              (letterIndex) => LetterTile(
             wordIndex: wordIndex,
             letterIndex: letterIndex,
           ),

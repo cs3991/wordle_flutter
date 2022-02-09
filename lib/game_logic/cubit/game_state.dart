@@ -4,13 +4,8 @@ enum LetterStatus { unknown, notInWord, wrongSpot, correctSpot }
 
 @immutable
 class GameState {
-  final List<List<String?>> lettersMatrix;
-  final List<List<LetterStatus>> statusMatrix;
-  final int currentWordIndex;
-  final bool won;
-  final bool lost;
-
   const GameState({
+    required this.word,
     required this.currentWordIndex,
     required this.lettersMatrix,
     required this.statusMatrix,
@@ -19,7 +14,8 @@ class GameState {
   });
 
   GameState.initial()
-      : lettersMatrix = List<List<String?>>.generate(
+      : word = null,
+        lettersMatrix = List<List<String?>>.generate(
           6,
           (i) => List<String?>.filled(6, null),
         ),
@@ -31,7 +27,15 @@ class GameState {
         lost = false,
         currentWordIndex = 0;
 
+  final String? word;
+  final List<List<String?>> lettersMatrix;
+  final List<List<LetterStatus>> statusMatrix;
+  final int currentWordIndex;
+  final bool won;
+  final bool lost;
+
   GameState copyWith({
+    String? word,
     List<List<String?>>? lettersMatrix,
     List<List<LetterStatus>>? statusMatrix,
     bool? won,
@@ -39,6 +43,7 @@ class GameState {
     int? currentWordIndex,
   }) {
     return GameState(
+      word: word ?? this.word,
       lettersMatrix: lettersMatrix ?? this.lettersMatrix,
       statusMatrix: statusMatrix ?? this.statusMatrix,
       won: won ?? this.won,

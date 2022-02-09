@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wordle/grid/ui/grid.dart';
 import 'package:wordle/keyboard/ui/keyboard.dart';
 import 'package:wordle/theme/brightness_cubit.dart';
-
-import 'grid/ui/grid.dart';
 
 class WordlePage extends StatelessWidget {
   const WordlePage({Key? key}) : super(key: key);
@@ -49,9 +48,8 @@ class WordlePage extends StatelessWidget {
         ],
       ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
+        children: const [
           Grid(),
           Keyboard(),
         ],

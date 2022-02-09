@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordle/game_logic/cubit/game_cubit.dart';
 import 'package:wordle/theme/brightness_cubit.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'wordle_page.dart';
+
+import 'package:wordle/wordle_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,13 +26,12 @@ class MyApp extends StatelessWidget {
             title: 'Wordle',
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(
-                seedColor: Color(0x241541),
-                brightness: Brightness.light,
+                seedColor: const Color(0xFF241541),
               ),
             ),
             darkTheme: ThemeData(
               colorScheme: ColorScheme.fromSeed(
-                seedColor: Color(0x241541),
+                seedColor: const Color(0xFF241541),
                 brightness: Brightness.dark,
               ),
             ),
