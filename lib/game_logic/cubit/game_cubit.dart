@@ -4,7 +4,8 @@ import 'package:bloc/bloc.dart';
 import 'package:diacritic/diacritic.dart';
 import 'package:meta/meta.dart';
 
-import 'package:wordle/game_logic/authorized_words.dart';
+import 'package:wordle/game_logic/authorized_solutions.dart';
+import 'package:wordle/game_logic/authorized_guesses.dart';
 
 part 'game_state.dart';
 
@@ -12,8 +13,10 @@ class GameCubit extends Cubit<GameState> {
   GameCubit() : super(GameState.initial());
 
   void initGame() {
-    final possibleWordsList =
-        authorizedWordList.where((element) => element.length == 6);
+    const numberOfWords = 7000;
+    final possibleWordsList = authorizedSolutionList
+        .take(numberOfWords)
+        .where((element) => element.length == 6);
     final word = removeDiacritics(
       possibleWordsList.elementAt(Random().nextInt(possibleWordsList.length)),
     ).toUpperCase();
@@ -52,14 +55,14 @@ class GameCubit extends Cubit<GameState> {
       print('Le mot doit avoir 6 lettres');
       return;
     }
-    if (!authorizedWordList
+    if (!authorizedGuessList
         .contains(state.lettersMatrix[state.currentWordIndex].join())) {
       print("Le mot n'est pas dans la liste");
       return;
     }
 
     // check status of each letter
-    final visitedIndex = Set<int>();
+    final visitedIndex = <int>{};
     final correctlyPlacedLetters = state.correctlyPlacedLetters.toSet();
     final wronglyPlacedLetters = state.wronglyPlacedLetters.toSet();
     final notInWordLetters = state.notInWordLetters.toSet();
