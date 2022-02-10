@@ -22,10 +22,14 @@ class GameCubit extends Cubit<GameState> {
       possibleWordsList.elementAt(Random().nextInt(possibleWordsList.length)),
     ).toUpperCase();
     print(word);
-    emit(state.copyWith(word: word));
+    emit(GameState.initial().copyWith(word: word));
   }
 
   void addLetter(String letter) {
+    if (state.lost || state.won) {
+      return;
+    }
+
     assert(
       state.word != null,
       'state should not be null, game should have been initialized',
@@ -41,6 +45,10 @@ class GameCubit extends Cubit<GameState> {
   }
 
   void deleteLetter() {
+    if (state.lost || state.won) {
+      return;
+    }
+
     final newLetterMatrix = List<List<String?>>.from(state.letterMatrix);
     final index = newLetterMatrix[state.currentWordIndex]
         .lastIndexWhere((element) => element != null);
@@ -52,6 +60,10 @@ class GameCubit extends Cubit<GameState> {
   }
 
   void submitWord() {
+    if (state.lost || state.won) {
+      return;
+    }
+
     final submittedWord = state.letterMatrix[state.currentWordIndex];
     if (submittedWord.contains(null)) {
       print('Le mot doit avoir 6 lettres');
@@ -63,7 +75,7 @@ class GameCubit extends Cubit<GameState> {
         state.copyWith(
           shaking: List<bool>.generate(
             6,
-            (index) => index == state.currentWordIndex,
+                (index) => index == state.currentWordIndex,
           ),
         ),
       );
@@ -124,9 +136,9 @@ class GameCubit extends Cubit<GameState> {
       state.copyWith(
         currentWordIndex: state.currentWordIndex + 1,
         correctlyPlacedLetters:
-            state.correctlyPlacedLetters.union(correctlyPlacedLetters),
+        state.correctlyPlacedLetters.union(correctlyPlacedLetters),
         wronglyPlacedLetters:
-            state.wronglyPlacedLetters.union(wronglyPlacedLetters),
+        state.wronglyPlacedLetters.union(wronglyPlacedLetters),
         notInWordLetters: state.notInWordLetters.union(notInWordLetters),
       ),
     );
