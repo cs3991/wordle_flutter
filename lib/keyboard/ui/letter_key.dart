@@ -4,7 +4,7 @@ import 'package:wordle/game_logic/cubit/game_cubit.dart';
 import 'package:wordle/keyboard/ui/keyboard_key.dart';
 
 class LetterKey extends StatelessWidget {
-  LetterKey({Key? key, required this.letter}) : super(key: key);
+  const LetterKey({Key? key, required this.letter}) : super(key: key);
 
   final String letter;
 

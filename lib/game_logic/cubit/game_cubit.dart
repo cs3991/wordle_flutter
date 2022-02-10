@@ -3,18 +3,21 @@ import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:diacritic/diacritic.dart';
 import 'package:meta/meta.dart';
-import 'package:wordle/game_logic/authorized_guesses.dart';
-import 'package:wordle/game_logic/authorized_solutions.dart';
+import 'package:wordle/words/words_provider.dart';
 
 part 'game_state.dart';
 
 class GameCubit extends Cubit<GameState> {
   GameCubit() : super(GameState.initial()) {
+    _wordsProvider = WordsProvider();
     initGame();
   }
 
-  void initGame() {
+  late final WordsProvider _wordsProvider;
+
+  Future<void> initGame() async {
     const numberOfWords = 7000;
+    final authorizedSolutionList = await _wordsProvider.authorizedSolutionList;
     final possibleWordsList = authorizedSolutionList
         .take(numberOfWords)
         .where((element) => element.length == 6);
@@ -59,7 +62,7 @@ class GameCubit extends Cubit<GameState> {
     emit(state.copyWith(letterMatrix: newLetterMatrix));
   }
 
-  void submitWord() {
+  Future<void> submitWord() async {
     if (state.lost || state.won) {
       return;
     }
@@ -69,13 +72,16 @@ class GameCubit extends Cubit<GameState> {
       print('Le mot doit avoir 6 lettres');
       return;
     }
+
+    final authorizedGuessList = await _wordsProvider.authorizedGuessList;
+
     if (!authorizedGuessList
         .contains(state.letterMatrix[state.currentWordIndex].join())) {
       emit(
         state.copyWith(
           shaking: List<bool>.generate(
             6,
-                (index) => index == state.currentWordIndex,
+            (index) => index == state.currentWordIndex,
           ),
         ),
       );
@@ -136,9 +142,9 @@ class GameCubit extends Cubit<GameState> {
       state.copyWith(
         currentWordIndex: state.currentWordIndex + 1,
         correctlyPlacedLetters:
-        state.correctlyPlacedLetters.union(correctlyPlacedLetters),
+            state.correctlyPlacedLetters.union(correctlyPlacedLetters),
         wronglyPlacedLetters:
-        state.wronglyPlacedLetters.union(wronglyPlacedLetters),
+            state.wronglyPlacedLetters.union(wronglyPlacedLetters),
         notInWordLetters: state.notInWordLetters.union(notInWordLetters),
       ),
     );

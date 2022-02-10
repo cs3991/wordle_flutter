@@ -50,7 +50,7 @@ class WordlePage extends StatelessWidget {
       ),
       body: BlocListener<GameCubit, GameState>(
         listener: (context, state) {
-          if (state.won) {
+          if (state.won || state.lost) {
             showDialog<String>(
               context: context,
               builder: (context) {
@@ -75,14 +75,16 @@ class WordlePage extends StatelessWidget {
                   backgroundColor: Theme.of(context).colorScheme.surface,
                   elevation: 3,
                   title: Column(
-                    children: const [
+                    children: [
                       Icon(
-                        Icons.celebration_rounded,
+                        state.won
+                            ? Icons.celebration_rounded
+                            : Icons.sentiment_dissatisfied_rounded,
                         size: 24,
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 16),
-                        child: Text('Gagné !'),
+                        padding: const EdgeInsets.only(top: 16),
+                        child: Text(state.won ? 'Gagné !' : 'Perdu'),
                       ),
                     ],
                   ),
@@ -90,7 +92,9 @@ class WordlePage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(28),
                   ),
                   content: Text(
-                    'Vous avez gagné en ${state.currentWordIndex + 1} coups',
+                    state.won
+                        ? 'Vous avez trouvé ${state.word} en ${state.currentWordIndex + 1} coups'
+                        : 'Le mot à deviner était ${state.word}',
                     textAlign: TextAlign.center,
                   ),
                   actions: [
