@@ -3,14 +3,15 @@ import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:diacritic/diacritic.dart';
 import 'package:meta/meta.dart';
-
-import 'package:wordle/game_logic/authorized_solutions.dart';
 import 'package:wordle/game_logic/authorized_guesses.dart';
+import 'package:wordle/game_logic/authorized_solutions.dart';
 
 part 'game_state.dart';
 
 class GameCubit extends Cubit<GameState> {
-  GameCubit() : super(GameState.initial());
+  GameCubit() : super(GameState.initial()) {
+    initGame();
+  }
 
   void initGame() {
     const numberOfWords = 7000;
@@ -25,39 +26,51 @@ class GameCubit extends Cubit<GameState> {
   }
 
   void addLetter(String letter) {
-    if (state.word == null) {
-      initGame();
-    }
+    assert(
+      state.word != null,
+      'state should not be null, game should have been initialized',
+    );
     final letterIndex =
-        state.lettersMatrix[state.currentWordIndex].indexOf(null);
+        state.letterMatrix[state.currentWordIndex].indexOf(null);
     if (letterIndex == -1) {
       return;
     }
-    final newLetterMatrix = List<List<String?>>.from(state.lettersMatrix);
+    final newLetterMatrix = List<List<String?>>.from(state.letterMatrix);
     newLetterMatrix[state.currentWordIndex][letterIndex] = letter;
-    emit(state.copyWith(lettersMatrix: newLetterMatrix));
+    emit(state.copyWith(letterMatrix: newLetterMatrix));
   }
 
   void deleteLetter() {
-    final newLetterMatrix = List<List<String?>>.from(state.lettersMatrix);
+    final newLetterMatrix = List<List<String?>>.from(state.letterMatrix);
     final index = newLetterMatrix[state.currentWordIndex]
         .lastIndexWhere((element) => element != null);
     if (index == -1) {
       return;
     }
     newLetterMatrix[state.currentWordIndex][index] = null;
-    emit(state.copyWith(lettersMatrix: newLetterMatrix));
+    emit(state.copyWith(letterMatrix: newLetterMatrix));
   }
 
   void submitWord() {
-    final submittedWord = state.lettersMatrix[state.currentWordIndex];
+    final submittedWord = state.letterMatrix[state.currentWordIndex];
     if (submittedWord.contains(null)) {
       print('Le mot doit avoir 6 lettres');
       return;
     }
     if (!authorizedGuessList
-        .contains(state.lettersMatrix[state.currentWordIndex].join())) {
+        .contains(state.letterMatrix[state.currentWordIndex].join())) {
+      emit(
+        state.copyWith(
+          shaking: List<bool>.generate(
+            6,
+            (index) => index == state.currentWordIndex,
+          ),
+        ),
+      );
       print("Le mot n'est pas dans la liste");
+      emit(
+        state.copyWith(shaking: List<bool>.filled(6, false)),
+      );
       return;
     }
 
@@ -107,13 +120,15 @@ class GameCubit extends Cubit<GameState> {
       return;
     }
 
-    emit(state.copyWith(
-      currentWordIndex: state.currentWordIndex + 1,
-      correctlyPlacedLetters:
-          state.correctlyPlacedLetters.union(correctlyPlacedLetters),
-      wronglyPlacedLetters:
-          state.wronglyPlacedLetters.union(wronglyPlacedLetters),
-      notInWordLetters: state.notInWordLetters.union(notInWordLetters),
-    ));
+    emit(
+      state.copyWith(
+        currentWordIndex: state.currentWordIndex + 1,
+        correctlyPlacedLetters:
+            state.correctlyPlacedLetters.union(correctlyPlacedLetters),
+        wronglyPlacedLetters:
+            state.wronglyPlacedLetters.union(wronglyPlacedLetters),
+        notInWordLetters: state.notInWordLetters.union(notInWordLetters),
+      ),
+    );
   }
 }

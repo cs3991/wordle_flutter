@@ -7,18 +7,19 @@ class GameState {
   const GameState({
     required this.word,
     required this.currentWordIndex,
-    required this.lettersMatrix,
+    required this.letterMatrix,
     required this.statusMatrix,
     required this.won,
     required this.lost,
     required this.correctlyPlacedLetters,
     required this.wronglyPlacedLetters,
     required this.notInWordLetters,
+    required this.shaking,
   });
 
   GameState.initial()
       : word = null,
-        lettersMatrix = List<List<String?>>.generate(
+        letterMatrix = List<List<String?>>.generate(
           6,
           (i) => List<String?>.filled(6, null),
         ),
@@ -31,10 +32,11 @@ class GameState {
         currentWordIndex = 0,
         correctlyPlacedLetters = <String>{},
         wronglyPlacedLetters = <String>{},
-        notInWordLetters = <String>{};
+        notInWordLetters = <String>{},
+        shaking = List<bool>.filled(6, false);
 
   final String? word;
-  final List<List<String?>> lettersMatrix;
+  final List<List<String?>> letterMatrix;
   final List<List<LetterStatus>> statusMatrix;
   final int currentWordIndex;
   final bool won;
@@ -42,10 +44,11 @@ class GameState {
   final Set<String> correctlyPlacedLetters;
   final Set<String> wronglyPlacedLetters;
   final Set<String> notInWordLetters;
+  final List<bool> shaking;
 
   GameState copyWith({
     String? word,
-    List<List<String?>>? lettersMatrix,
+    List<List<String?>>? letterMatrix,
     List<List<LetterStatus>>? statusMatrix,
     bool? won,
     bool? lost,
@@ -53,10 +56,11 @@ class GameState {
     Set<String>? correctlyPlacedLetters,
     Set<String>? wronglyPlacedLetters,
     Set<String>? notInWordLetters,
+    List<bool>? shaking,
   }) {
     return GameState(
       word: word ?? this.word,
-      lettersMatrix: lettersMatrix ?? this.lettersMatrix,
+      letterMatrix: letterMatrix ?? this.letterMatrix,
       statusMatrix: statusMatrix ?? this.statusMatrix,
       won: won ?? this.won,
       lost: lost ?? this.lost,
@@ -65,6 +69,7 @@ class GameState {
           correctlyPlacedLetters ?? this.correctlyPlacedLetters,
       wronglyPlacedLetters: wronglyPlacedLetters ?? this.wronglyPlacedLetters,
       notInWordLetters: notInWordLetters ?? this.notInWordLetters,
+      shaking: shaking ?? this.shaking,
     );
   }
 }

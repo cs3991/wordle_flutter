@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordle/game_logic/cubit/game_cubit.dart';
 import 'package:wordle/keyboard/ui/icon_key.dart';
 
-import 'package:wordle/keyboard/ui/keyboard_key.dart';
 import 'package:wordle/keyboard/ui/letter_key.dart';
 
 class Keyboard extends StatelessWidget {

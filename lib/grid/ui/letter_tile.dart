@@ -18,7 +18,7 @@ class LetterTile extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 1),
       child: BlocBuilder<GameCubit, GameState>(
         builder: (context, gameState) {
-          final letter = gameState.lettersMatrix[wordIndex][letterIndex];
+          final letter = gameState.letterMatrix[wordIndex][letterIndex];
           final status = gameState.statusMatrix[wordIndex][letterIndex];
 
           return Container(
