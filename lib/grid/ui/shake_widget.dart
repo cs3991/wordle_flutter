@@ -38,7 +38,6 @@ class ShakeWidgetState extends State<ShakeWidget>
 
   void shake() {
     controller.forward();
-    print('widget is shaking');
   }
 
   @override

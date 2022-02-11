@@ -18,31 +18,47 @@ class GameCubit extends Cubit<GameState> {
   Future<void> initGame() async {
     const numberOfWords = 7000;
     final authorizedSolutionList = await _wordsProvider.authorizedSolutionList;
-    final possibleWordsList = authorizedSolutionList
-        .take(numberOfWords)
-        .where((element) => element.length == 6);
+    final possibleWordsList = authorizedSolutionList.take(numberOfWords);
+    // .where((element) => element.length == 6);
     final word = removeDiacritics(
       possibleWordsList.elementAt(Random().nextInt(possibleWordsList.length)),
     ).toUpperCase();
+    final letterMatrix = List<List<String?>>.generate(
+      GameState.WORD_COUNT,
+      (i) => List<String?>.filled(word.length, null),
+    );
+    final statusMatrix = List<List<LetterStatus>>.generate(
+      GameState.WORD_COUNT,
+      (i) => List<LetterStatus>.filled(word.length, LetterStatus.unknown),
+    );
     print(word);
-    emit(GameState.initial().copyWith(word: word));
+    emit(
+      GameState.initial().copyWith(
+        word: word,
+        letterMatrix: letterMatrix,
+        statusMatrix: statusMatrix,
+      ),
+    );
   }
 
   void addLetter(String letter) {
+    assert(
+      state.word != null &&
+          state.letterMatrix != null &&
+          state.statusMatrix != null,
+      'word should not be null, game should have been initialized',
+    );
+
     if (state.lost || state.won) {
       return;
     }
 
-    assert(
-      state.word != null,
-      'state should not be null, game should have been initialized',
-    );
     final letterIndex =
-        state.letterMatrix[state.currentWordIndex].indexOf(null);
+        state.letterMatrix![state.currentWordIndex].indexOf(null);
     if (letterIndex == -1) {
       return;
     }
-    final newLetterMatrix = List<List<String?>>.from(state.letterMatrix);
+    final newLetterMatrix = List<List<String?>>.from(state.letterMatrix!);
     newLetterMatrix[state.currentWordIndex][letterIndex] = letter;
     emit(state.copyWith(letterMatrix: newLetterMatrix));
   }
@@ -52,7 +68,7 @@ class GameCubit extends Cubit<GameState> {
       return;
     }
 
-    final newLetterMatrix = List<List<String?>>.from(state.letterMatrix);
+    final newLetterMatrix = List<List<String?>>.from(state.letterMatrix!);
     final index = newLetterMatrix[state.currentWordIndex]
         .lastIndexWhere((element) => element != null);
     if (index == -1) {
@@ -67,27 +83,27 @@ class GameCubit extends Cubit<GameState> {
       return;
     }
 
-    final submittedWord = state.letterMatrix[state.currentWordIndex];
+    final submittedWord = state.letterMatrix![state.currentWordIndex];
     if (submittedWord.contains(null)) {
-      print('Le mot doit avoir 6 lettres');
+      print('Le mot doit avoir ${state.word!.length} lettres');
       return;
     }
 
     final authorizedGuessList = await _wordsProvider.authorizedGuessList;
 
     if (!authorizedGuessList
-        .contains(state.letterMatrix[state.currentWordIndex].join())) {
+        .contains(state.letterMatrix![state.currentWordIndex].join())) {
       emit(
         state.copyWith(
           shaking: List<bool>.generate(
-            6,
+            GameState.WORD_COUNT,
             (index) => index == state.currentWordIndex,
           ),
         ),
       );
       print("Le mot n'est pas dans la liste");
       emit(
-        state.copyWith(shaking: List<bool>.filled(6, false)),
+        state.copyWith(shaking: List<bool>.filled(GameState.WORD_COUNT, false)),
       );
       return;
     }
@@ -97,16 +113,16 @@ class GameCubit extends Cubit<GameState> {
     final correctlyPlacedLetters = state.correctlyPlacedLetters.toSet();
     final wronglyPlacedLetters = state.wronglyPlacedLetters.toSet();
     final notInWordLetters = state.notInWordLetters.toSet();
-    for (var i = 0; i < 6; i++) {
+    for (var i = 0; i < state.word!.length; i++) {
       final letter = submittedWord[i];
       if (state.word![i] == letter!) {
-        state.statusMatrix[state.currentWordIndex][i] =
+        state.statusMatrix![state.currentWordIndex][i] =
             LetterStatus.correctSpot;
         visitedIndex.add(i);
         correctlyPlacedLetters.add(letter);
       }
     }
-    for (var i = 0; i < 6; i++) {
+    for (var i = 0; i < state.word!.length; i++) {
       if (!visitedIndex.contains(i)) {
         final letter = submittedWord[i];
         final wordSplit = state.word!.split('');
@@ -115,12 +131,12 @@ class GameCubit extends Cubit<GameState> {
         }
 
         if (wordSplit.contains(letter)) {
-          state.statusMatrix[state.currentWordIndex][i] =
+          state.statusMatrix![state.currentWordIndex][i] =
               LetterStatus.wrongSpot;
           visitedIndex.add(i);
           wronglyPlacedLetters.add(letter!);
         } else {
-          state.statusMatrix[state.currentWordIndex][i] =
+          state.statusMatrix![state.currentWordIndex][i] =
               LetterStatus.notInWord;
           notInWordLetters.add(letter!);
         }

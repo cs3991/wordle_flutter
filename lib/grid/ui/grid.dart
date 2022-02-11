@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wordle/game_logic/cubit/game_cubit.dart';
 import 'package:wordle/grid/ui/word.dart';
 
 class Grid extends StatelessWidget {
@@ -7,7 +8,10 @@ class Grid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: List.generate(6, (wordIndex) => Word(wordIndex: wordIndex)),
+      children: List.generate(
+        GameState.WORD_COUNT,
+        (wordIndex) => Word(wordIndex: wordIndex),
+      ),
     );
   }
 }

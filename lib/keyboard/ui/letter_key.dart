@@ -11,11 +11,13 @@ class LetterKey extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
+      // ignore: avoid_redundant_argument_values
       flex: 1,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
         child: BlocBuilder<GameCubit, GameState>(
           builder: (context, state) => InkWell(
+            borderRadius: BorderRadius.circular(12),
             onTap: () => BlocProvider.of<GameCubit>(context).addLetter(letter),
             child: KeyboardKey(
               color: state.correctlyPlacedLetters.contains(letter)
@@ -28,8 +30,8 @@ class LetterKey extends StatelessWidget {
               child: Text(
                 letter,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: Theme.of(context).colorScheme.onSecondaryContainer,
-                    ),
+                  color: Theme.of(context).colorScheme.onSecondaryContainer,
+                ),
               ),
             ),
           ),

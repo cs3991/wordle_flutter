@@ -93,7 +93,8 @@ class WordlePage extends StatelessWidget {
                   ),
                   content: Text(
                     state.won
-                        ? 'Vous avez trouvé ${state.word} en ${state.currentWordIndex + 1} coups'
+                        ? 'Vous avez trouvé ${state.word} en '
+                            '${state.currentWordIndex + 1} coups'
                         : 'Le mot à deviner était ${state.word}',
                     textAlign: TextAlign.center,
                   ),
@@ -118,7 +119,7 @@ class WordlePage extends StatelessWidget {
           }
         },
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: const [
             Grid(),
             Keyboard(),

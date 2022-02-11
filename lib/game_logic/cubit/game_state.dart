@@ -19,25 +19,20 @@ class GameState {
 
   GameState.initial()
       : word = null,
-        letterMatrix = List<List<String?>>.generate(
-          6,
-          (i) => List<String?>.filled(6, null),
-        ),
-        statusMatrix = List<List<LetterStatus>>.generate(
-          6,
-          (i) => List<LetterStatus>.filled(6, LetterStatus.unknown),
-        ),
+        letterMatrix = null,
+        statusMatrix = null,
         won = false,
         lost = false,
         currentWordIndex = 0,
         correctlyPlacedLetters = <String>{},
         wronglyPlacedLetters = <String>{},
         notInWordLetters = <String>{},
-        shaking = List<bool>.filled(6, false);
+        shaking = List<bool>.filled(WORD_COUNT, false);
 
+  static const int WORD_COUNT = 6;
   final String? word;
-  final List<List<String?>> letterMatrix;
-  final List<List<LetterStatus>> statusMatrix;
+  final List<List<String?>>? letterMatrix;
+  final List<List<LetterStatus>>? statusMatrix;
   final int currentWordIndex;
   final bool won;
   final bool lost;

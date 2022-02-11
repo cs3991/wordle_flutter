@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordle/game_logic/cubit/game_cubit.dart';
-
 import 'package:wordle/grid/ui/letter_tile.dart';
 import 'package:wordle/grid/ui/shake_widget.dart';
 
@@ -16,7 +15,6 @@ class Word extends StatelessWidget {
     return BlocListener<GameCubit, GameState>(
       listener: (context, state) {
         if (state.shaking[wordIndex]) {
-          print('widget detected shaking');
           _shakeKey.currentState?.shake();
         }
       },
@@ -26,15 +24,28 @@ class Word extends StatelessWidget {
         shakeDuration: const Duration(milliseconds: 300),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(
-              6,
-              (letterIndex) => LetterTile(
-                wordIndex: wordIndex,
-                letterIndex: letterIndex,
-              ),
-            ),
+          child: BlocBuilder<GameCubit, GameState>(
+            builder: (context, state) {
+              return LayoutBuilder(builder: (context, constraint) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(
+                    state.word?.length ?? 0,
+                    (letterIndex) => ConstrainedWidthFlexible(
+                      maxWidth: 58,
+                      flex: 1,
+                      outerConstraints: constraint,
+                      flexSum: state.word!.length,
+                      minWidth: 2,
+                      child: LetterTile(
+                        wordIndex: wordIndex,
+                        letterIndex: letterIndex,
+                      ),
+                    ),
+                  ),
+                );
+              });
+            },
           ),
         ),
       ),
