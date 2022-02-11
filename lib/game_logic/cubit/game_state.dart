@@ -27,9 +27,9 @@ class GameState {
         correctlyPlacedLetters = <String>{},
         wronglyPlacedLetters = <String>{},
         notInWordLetters = <String>{},
-        shaking = List<bool>.filled(WORD_COUNT, false);
+        shaking = List<bool>.filled(numberOfTrials, false);
 
-  static const int WORD_COUNT = 6;
+  static const int numberOfTrials = 6;
   final String? word;
   final List<List<String?>>? letterMatrix;
   final List<List<LetterStatus>>? statusMatrix;

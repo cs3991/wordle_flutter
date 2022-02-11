@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:diacritic/diacritic.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 import 'package:wordle/words/words_provider.dart';
 
 part 'game_state.dart';
@@ -24,14 +24,16 @@ class GameCubit extends Cubit<GameState> {
       possibleWordsList.elementAt(Random().nextInt(possibleWordsList.length)),
     ).toUpperCase();
     final letterMatrix = List<List<String?>>.generate(
-      GameState.WORD_COUNT,
+      GameState.numberOfTrials,
       (i) => List<String?>.filled(word.length, null),
     );
     final statusMatrix = List<List<LetterStatus>>.generate(
-      GameState.WORD_COUNT,
+      GameState.numberOfTrials,
       (i) => List<LetterStatus>.filled(word.length, LetterStatus.unknown),
     );
-    print(word);
+    if (kDebugMode) {
+      print(word);
+    }
     emit(
       GameState.initial().copyWith(
         word: word,
@@ -85,7 +87,9 @@ class GameCubit extends Cubit<GameState> {
 
     final submittedWord = state.letterMatrix![state.currentWordIndex];
     if (submittedWord.contains(null)) {
-      print('Le mot doit avoir ${state.word!.length} lettres');
+      if (kDebugMode) {
+        print('Le mot doit avoir ${state.word!.length} lettres');
+      }
       return;
     }
 
@@ -96,14 +100,18 @@ class GameCubit extends Cubit<GameState> {
       emit(
         state.copyWith(
           shaking: List<bool>.generate(
-            GameState.WORD_COUNT,
+            GameState.numberOfTrials,
             (index) => index == state.currentWordIndex,
           ),
         ),
       );
-      print("Le mot n'est pas dans la liste");
+      if (kDebugMode) {
+        print("Le mot n'est pas dans la liste");
+      }
       emit(
-        state.copyWith(shaking: List<bool>.filled(GameState.WORD_COUNT, false)),
+        state.copyWith(
+          shaking: List<bool>.filled(GameState.numberOfTrials, false),
+        ),
       );
       return;
     }
@@ -143,13 +151,17 @@ class GameCubit extends Cubit<GameState> {
       }
     }
     if (submittedWord.join() == state.word) {
-      print('Gagné !');
+      if (kDebugMode) {
+        print('Gagné !');
+      }
       emit(state.copyWith(won: true));
       return;
     }
 
     if (state.currentWordIndex == 5) {
-      print('Perdu :(');
+      if (kDebugMode) {
+        print('Perdu :(');
+      }
       emit(state.copyWith(lost: true));
       return;
     }

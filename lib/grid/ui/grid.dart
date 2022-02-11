@@ -9,7 +9,7 @@ class Grid extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: List.generate(
-        GameState.WORD_COUNT,
+        GameState.numberOfTrials,
         (wordIndex) => Word(wordIndex: wordIndex),
       ),
     );

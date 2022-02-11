@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordle/game_logic/cubit/game_cubit.dart';
 
 class LetterTile extends StatelessWidget {
-  LetterTile({
+  const LetterTile({
     Key? key,
     required this.wordIndex,
     required this.letterIndex,

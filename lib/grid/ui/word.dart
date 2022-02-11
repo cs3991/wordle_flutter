@@ -35,17 +35,18 @@ class Word extends StatelessWidget {
                     (letterIndex) => ConstrainedWidthFlexible(
                       maxWidth: 58,
                       flex: 1,
-                      outerConstraints: constraint,
-                      flexSum: state.word!.length,
-                      minWidth: 2,
-                      child: LetterTile(
-                        wordIndex: wordIndex,
-                        letterIndex: letterIndex,
+                        outerConstraints: constraint,
+                        flexSum: state.word!.length,
+                        minWidth: 2,
+                        child: LetterTile(
+                          wordIndex: wordIndex,
+                          letterIndex: letterIndex,
+                        ),
                       ),
                     ),
-                  ),
-                );
-              });
+                  );
+                },
+              );
             },
           ),
         ),

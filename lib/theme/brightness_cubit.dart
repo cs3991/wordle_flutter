@@ -1,7 +1,7 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 
-class BrightnessCubit extends Cubit<Brightness> {
+class BrightnessCubit extends HydratedCubit<Brightness> {
   BrightnessCubit() : super(Brightness.light);
 
   void switchBrightness() {
@@ -10,5 +10,17 @@ class BrightnessCubit extends Cubit<Brightness> {
     } else {
       emit(Brightness.light);
     }
+  }
+
+  @override
+  Brightness? fromJson(Map<String, dynamic> json) {
+    return json['brightness'] == Brightness.light.toString()
+        ? Brightness.light
+        : Brightness.dark;
+  }
+
+  @override
+  Map<String, dynamic>? toJson(Brightness state) {
+    return <String, dynamic>{'brightness': state.toString()};
   }
 }
