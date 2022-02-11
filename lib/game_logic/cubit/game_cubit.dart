@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:diacritic/diacritic.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:wordle/words/words_provider.dart';
 
 part 'game_state.dart';
@@ -176,5 +178,22 @@ class GameCubit extends Cubit<GameState> {
         notInWordLetters: state.notInWordLetters.union(notInWordLetters),
       ),
     );
+  }
+
+  KeyEventResult handleKeyboardEvent(FocusNode node, KeyEvent event) {
+    if (event is KeyDownEvent) {
+      if (RegExp('[A-Z]').hasMatch(event.logicalKey.keyLabel) &&
+          event.logicalKey.keyLabel.length == 1) {
+        addLetter(event.logicalKey.keyLabel);
+        return KeyEventResult.handled;
+      } else if (event.logicalKey == LogicalKeyboardKey.backspace) {
+        deleteLetter();
+        return KeyEventResult.handled;
+      } else if (event.logicalKey == LogicalKeyboardKey.enter) {
+        submitWord();
+        return KeyEventResult.handled;
+      }
+    }
+    return KeyEventResult.ignored;
   }
 }
