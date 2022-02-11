@@ -18,8 +18,12 @@ class LetterTile extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 1),
       child: BlocBuilder<GameCubit, GameState>(
         builder: (context, gameState) {
-          final letter = gameState.letterMatrix![wordIndex][letterIndex];
-          final status = gameState.statusMatrix![wordIndex][letterIndex];
+          final letter = gameState.word!.length > letterIndex
+              ? gameState.letterMatrix![wordIndex][letterIndex]
+              : '';
+          final status = gameState.word!.length > letterIndex
+              ? gameState.statusMatrix![wordIndex][letterIndex]
+              : LetterStatus.unknown;
 
           return Container(
             decoration: BoxDecoration(
@@ -46,40 +50,5 @@ class LetterTile extends StatelessWidget {
         },
       ),
     );
-  }
-}
-
-class ConstrainedWidthFlexible extends StatelessWidget {
-  final double minWidth;
-  final double maxWidth;
-  final int flex;
-  final int flexSum;
-  final Widget child;
-  final BoxConstraints outerConstraints;
-
-  ConstrainedWidthFlexible(
-      {required this.minWidth,
-      required this.maxWidth,
-      required this.flex,
-      required this.flexSum,
-      required this.outerConstraints,
-      required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-        minWidth: minWidth,
-        maxWidth: maxWidth,
-      ),
-      child: Container(
-        width: _getWidth(outerConstraints.maxWidth),
-        child: child,
-      ),
-    );
-  }
-
-  double _getWidth(double outerContainerWidth) {
-    return outerContainerWidth * flex / flexSum;
   }
 }

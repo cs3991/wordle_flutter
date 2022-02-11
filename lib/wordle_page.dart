@@ -17,6 +17,15 @@ class WordlePage extends StatelessWidget {
         centerTitle: true,
         toolbarHeight: 64,
         elevation: 0,
+        leading: IconButton(
+          onPressed: () {
+            BlocProvider.of<GameCubit>(context).initGame();
+          },
+          icon: Icon(
+            Icons.refresh_rounded,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
+        ),
         actions: [
           IconButton(
             icon: Padding(

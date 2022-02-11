@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordle/game_logic/cubit/game_cubit.dart';
+import 'package:wordle/grid/ui/constrained_with_flexible.dart';
 import 'package:wordle/grid/ui/letter_tile.dart';
 import 'package:wordle/grid/ui/shake_widget.dart';
 
