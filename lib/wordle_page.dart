@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordle/game_logic/cubit/game_cubit.dart';
 import 'package:wordle/grid/ui/grid.dart';
 import 'package:wordle/keyboard/ui/keyboard.dart';
+import 'package:wordle/settings_dialog.dart';
 import 'package:wordle/theme/brightness_cubit.dart';
 
 class WordlePage extends StatelessWidget {
@@ -56,7 +57,20 @@ class WordlePage extends StatelessWidget {
                   color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                showGeneralDialog(
+                  context: context,
+                  barrierDismissible: true,
+                  barrierLabel: MaterialLocalizations.of(context)
+                      .modalBarrierDismissLabel,
+                  barrierColor: Colors.black45,
+                  transitionDuration: const Duration(milliseconds: 200),
+                  pageBuilder: (BuildContext buildContext, Animation animation,
+                      Animation secondaryAnimation) {
+                    return SettingsDialog();
+                  },
+                );
+              },
             ),
           ],
         ),
