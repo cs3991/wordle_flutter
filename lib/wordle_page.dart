@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordle/game_logic/cubit/game_cubit.dart';
 import 'package:wordle/grid/ui/grid.dart';
 import 'package:wordle/keyboard/ui/keyboard.dart';
-import 'package:wordle/settings_dialog.dart';
+import 'package:wordle/settings/settings_dialog.dart';
 import 'package:wordle/theme/brightness_cubit.dart';
 
 class WordlePage extends StatelessWidget {

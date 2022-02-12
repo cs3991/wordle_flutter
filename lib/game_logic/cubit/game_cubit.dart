@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:bloc/bloc.dart';
@@ -5,23 +6,37 @@ import 'package:diacritic/diacritic.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:wordle/settings/cubit/settings_cubit.dart';
 import 'package:wordle/words/words_provider.dart';
 
 part 'game_state.dart';
 
 class GameCubit extends Cubit<GameState> {
-  GameCubit() : super(GameState.initial()) {
+  GameCubit(this._settingsCubit) : super(GameState.initial()) {
     _wordsProvider = WordsProvider();
+    settingsCubitSubscription = _settingsCubit.stream.listen((state) {
+      numberOfWords = state.possibleWordsNumber;
+      maxWordLength = state.maxWordLength;
+      minWordLength = state.minWordLength;
+    });
     initGame();
   }
 
+  final SettingsCubit _settingsCubit;
+  late final StreamSubscription settingsCubitSubscription;
   late final WordsProvider _wordsProvider;
+  late int numberOfWords;
+  late int maxWordLength;
+  late int minWordLength;
 
   Future<void> initGame() async {
-    const numberOfWords = 7000;
+    numberOfWords = _settingsCubit.state.possibleWordsNumber;
+    maxWordLength = _settingsCubit.state.maxWordLength;
+    minWordLength = _settingsCubit.state.minWordLength;
     final authorizedSolutionList = await _wordsProvider.authorizedSolutionList;
-    final possibleWordsList = authorizedSolutionList.take(numberOfWords);
-    // .where((element) => element.length == 6);
+    final possibleWordsList = authorizedSolutionList.take(numberOfWords).where(
+        (element) =>
+            element.length >= minWordLength && element.length <= maxWordLength);
     final word = removeDiacritics(
       possibleWordsList.elementAt(Random().nextInt(possibleWordsList.length)),
     ).toUpperCase();
@@ -47,10 +62,10 @@ class GameCubit extends Cubit<GameState> {
 
   void addLetter(String letter) {
     assert(
-      state.word != null &&
-          state.letterMatrix != null &&
-          state.statusMatrix != null,
-      'word should not be null, game should have been initialized',
+    state.word != null &&
+        state.letterMatrix != null &&
+        state.statusMatrix != null,
+    'word should not be null, game should have been initialized',
     );
 
     if (state.lost || state.won) {
@@ -58,7 +73,7 @@ class GameCubit extends Cubit<GameState> {
     }
 
     final letterIndex =
-        state.letterMatrix![state.currentWordIndex].indexOf(null);
+    state.letterMatrix![state.currentWordIndex].indexOf(null);
     if (letterIndex == -1) {
       return;
     }
@@ -103,7 +118,7 @@ class GameCubit extends Cubit<GameState> {
         state.copyWith(
           shaking: List<bool>.generate(
             GameState.numberOfTrials,
-            (index) => index == state.currentWordIndex,
+                (index) => index == state.currentWordIndex,
           ),
         ),
       );
@@ -172,9 +187,9 @@ class GameCubit extends Cubit<GameState> {
       state.copyWith(
         currentWordIndex: state.currentWordIndex + 1,
         correctlyPlacedLetters:
-            state.correctlyPlacedLetters.union(correctlyPlacedLetters),
+        state.correctlyPlacedLetters.union(correctlyPlacedLetters),
         wronglyPlacedLetters:
-            state.wronglyPlacedLetters.union(wronglyPlacedLetters),
+        state.wronglyPlacedLetters.union(wronglyPlacedLetters),
         notInWordLetters: state.notInWordLetters.union(notInWordLetters),
       ),
     );
@@ -195,5 +210,11 @@ class GameCubit extends Cubit<GameState> {
       }
     }
     return KeyEventResult.ignored;
+  }
+
+  @override
+  Future<void> close() {
+    settingsCubitSubscription.cancel();
+    return super.close();
   }
 }
