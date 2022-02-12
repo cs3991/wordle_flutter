@@ -65,9 +65,12 @@ class WordlePage extends StatelessWidget {
                       .modalBarrierDismissLabel,
                   barrierColor: Colors.black45,
                   transitionDuration: const Duration(milliseconds: 200),
-                  pageBuilder: (BuildContext buildContext, Animation animation,
-                      Animation secondaryAnimation) {
-                    return SettingsDialog();
+                  pageBuilder: (
+                    BuildContext buildContext,
+                    Animation animation,
+                    Animation secondaryAnimation,
+                  ) {
+                    return const SettingsDialog();
                   },
                 );
               },

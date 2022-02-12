@@ -35,8 +35,10 @@ class GameCubit extends Cubit<GameState> {
     minWordLength = _settingsCubit.state.minWordLength;
     final authorizedSolutionList = await _wordsProvider.authorizedSolutionList;
     final possibleWordsList = authorizedSolutionList.take(numberOfWords).where(
-        (element) =>
-            element.length >= minWordLength && element.length <= maxWordLength);
+          (element) =>
+              element.length >= minWordLength &&
+              element.length <= maxWordLength,
+        );
     final word = removeDiacritics(
       possibleWordsList.elementAt(Random().nextInt(possibleWordsList.length)),
     ).toUpperCase();

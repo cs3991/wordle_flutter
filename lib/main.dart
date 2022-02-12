@@ -31,7 +31,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => BrightnessCubit()),
         BlocProvider(create: (context) => SettingsCubit()),
         BlocProvider(
-            create: (context) => GameCubit(context.read<SettingsCubit>())),
+          create: (context) => GameCubit(context.read<SettingsCubit>()),
+        ),
       ],
       child: BlocBuilder<BrightnessCubit, Brightness>(
         builder: (context, brightness) {

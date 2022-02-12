@@ -21,27 +21,32 @@ class Keyboard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: azertyLine1
-                  .map((l) => LetterKey(
+                  .map(
+                      (l) => LetterKey(
                         letter: l,
                         constraint: constraint,
-                      ))
-                  .toList(),
+                      ),
+                    )
+                    .toList(),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: azertyLine2
-                  .map((l) => LetterKey(
+                  .map(
+                      (l) => LetterKey(
                         letter: l,
                         constraint: constraint,
-                      ))
-                  .toList(),
+                      ),
+                    )
+                    .toList(),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: azertyLine3
                   // ignore: unnecessary_cast
                   .map(
-                (l) => LetterKey(
+                // ignore: unnecessary_cast
+                  (l) => LetterKey(
                   letter: l,
                   constraint: constraint,
                 ) as Widget,
@@ -53,17 +58,18 @@ class Keyboard extends StatelessWidget {
                       BlocProvider.of<GameCubit>(context).deleteLetter(),
                   constraint: constraint,
                 ),
-                IconKey(
-                  icon: Icons.arrow_forward_rounded,
-                  onPress: () =>
-                      BlocProvider.of<GameCubit>(context).submitWord(),
-                  constraint: constraint,
-                ),
-              ]).toList(),
-            ),
-          ],
-        );
-      }),
+                  IconKey(
+                    icon: Icons.arrow_forward_rounded,
+                    onPress: () =>
+                        BlocProvider.of<GameCubit>(context).submitWord(),
+                    constraint: constraint,
+                  ),
+                ]).toList(),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }

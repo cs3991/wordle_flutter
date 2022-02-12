@@ -3,12 +3,12 @@ import 'package:wordle/common_widgets/constrained_with_flexible.dart';
 import 'package:wordle/keyboard/ui/keyboard_key.dart';
 
 class IconKey extends StatelessWidget {
-  const IconKey(
-      {Key? key,
-      required this.icon,
-      required this.onPress,
-      required this.constraint})
-      : super(key: key);
+  const IconKey({
+    Key? key,
+    required this.icon,
+    required this.onPress,
+    required this.constraint,
+  }) : super(key: key);
 
   final BoxConstraints constraint;
   final IconData icon;
