@@ -29,51 +29,45 @@ class SettingsDialog extends StatelessWidget {
       body: ListView(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+            padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 20),
             child: Text(
-              'Longueur minimale des mots',
+              'Plage de longueurs des mots à deviner',
               style: theme.textTheme.labelLarge,
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 20),
             child: BlocBuilder<SettingsCubit, SettingsState>(
               builder: (context, state) {
-                return Slider(
-                  onChanged: (value) =>
-                      context.read<SettingsCubit>().setMin(value.toInt()),
-                  value: state.minWordLength.toDouble(),
-                  min: 5,
-                  max: state.maxWordLength.toDouble(),
-                  divisions: state.maxWordLength - 5 == 0
-                      ? 1
-                      : state.maxWordLength - 5,
-                  label: state.minWordLength.toString(),
+                return Text(
+                  'Entre ${state.minWordLength.toString()} et'
+                  ' ${state.maxWordLength.toString()} lettres',
+                  style: theme.textTheme.labelMedium
+                      ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                 );
               },
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-            child: Text(
-              'Longueur maximale des mots',
-              style: theme.textTheme.labelLarge,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: BlocBuilder<SettingsCubit, SettingsState>(
               builder: (context, state) {
-                return Slider(
-                  onChanged: (value) =>
-                      context.read<SettingsCubit>().setMax(value.toInt()),
-                  value: state.maxWordLength.toDouble(),
-                  min: state.minWordLength.toDouble(),
+                return RangeSlider(
+                  min: 5,
                   max: 10,
-                  divisions: 10 - state.minWordLength == 0
-                      ? 1
-                      : 10 - state.minWordLength,
-                  label: state.maxWordLength.toString(),
+                  divisions: 10 - 5,
+                  labels: RangeLabels(
+                    state.minWordLength.toString(),
+                    state.maxWordLength.toString(),
+                  ),
+                  values: RangeValues(
+                    state.minWordLength.toDouble(),
+                    state.maxWordLength.toDouble(),
+                  ),
+                  onChanged: (RangeValues values) {
+                    context.read<SettingsCubit>().setMin(values.start.toInt());
+                    context.read<SettingsCubit>().setMax(values.end.toInt());
+                  },
                 );
               },
             ),
