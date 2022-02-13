@@ -73,10 +73,28 @@ class SettingsDialog extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+            padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 20),
             child: Text(
               'Difficulté des mots à deviner',
               style: theme.textTheme.labelLarge,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 20),
+            child: BlocBuilder<SettingsCubit, SettingsState>(
+              builder: (context, state) {
+                return Text(
+                  state.possibleWordsNumber < 3000
+                      ? 'Facile'
+                      : state.possibleWordsNumber < 7000
+                          ? 'Intermédiaire'
+                          : state.possibleWordsNumber < 11000
+                              ? 'Difficile'
+                              : 'Hardcore',
+                  style: theme.textTheme.labelMedium
+                      ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                );
+              },
             ),
           ),
           Padding(
