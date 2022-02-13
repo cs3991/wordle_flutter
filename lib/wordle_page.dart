@@ -17,7 +17,7 @@ class WordlePage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.surface,
-          title: Text('Wordle', style: Theme.of(context).textTheme.titleLarge),
+          title: Text('Wurdle', style: Theme.of(context).textTheme.titleLarge),
           centerTitle: true,
           toolbarHeight: 64,
           elevation: 0,
@@ -150,12 +150,25 @@ class WordlePage extends StatelessWidget {
               );
             }
           },
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Grid(),
-              Keyboard(),
-            ],
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              if (constraints.maxHeight > 575) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    Grid(),
+                    Keyboard(),
+                  ],
+                );
+              } else {
+                return ListView(
+                  children: const [
+                    Grid(),
+                    Keyboard(),
+                  ],
+                );
+              }
+            },
           ),
         ),
         backgroundColor: Theme.of(context).colorScheme.background,
