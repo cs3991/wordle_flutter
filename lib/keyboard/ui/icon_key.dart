@@ -22,13 +22,10 @@ class IconKey extends StatelessWidget {
       flex: 2,
       flexSum: 10,
       outerConstraints: constraint,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(12),
-          onTap: onPress,
-          child: KeyboardKey(flex: 2, child: Icon(icon)),
-        ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: onPress,
+        child: KeyboardKey(flex: 2, child: Icon(icon)),
       ),
     );
   }

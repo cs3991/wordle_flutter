@@ -23,36 +23,33 @@ class LetterKey extends StatelessWidget {
       flexSum: 10,
       outerConstraints: constraint,
       // ignore: avoid_redundant_argument_values
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
-        child: BlocBuilder<GameCubit, GameState>(
-          builder: (context, state) => InkWell(
-            borderRadius: BorderRadius.circular(12),
-            onTap: () => BlocProvider.of<GameCubit>(context).addLetter(letter),
-            child: KeyboardKey(
-              color: state.correctlyPlacedLetters.contains(letter)
-                  ? Colors.green.withOpacity(0.30)
-                  : state.wronglyPlacedLetters.contains(letter)
-                      ? Colors.amber.withOpacity(0.30)
-                      : state.notInWordLetters.contains(letter)
-                          ? Colors.black.withOpacity(0.25)
-                          : null,
-              child: Text(
-                letter,
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onSecondaryContainer
-                          .withOpacity(
-                            state.notInWordLetters.contains(letter) &&
-                                    !state.correctlyPlacedLetters
-                                        .contains(letter) &&
-                                    !state.wronglyPlacedLetters.contains(letter)
-                                ? 0.3
-                                : 1,
-                          ),
-                    ),
-              ),
+      child: BlocBuilder<GameCubit, GameState>(
+        builder: (context, state) => InkWell(
+          borderRadius: BorderRadius.circular(12),
+          onTap: () => BlocProvider.of<GameCubit>(context).addLetter(letter),
+          child: KeyboardKey(
+            color: state.correctlyPlacedLetters.contains(letter)
+                ? Colors.green.withOpacity(0.30)
+                : state.wronglyPlacedLetters.contains(letter)
+                    ? Colors.amber.withOpacity(0.30)
+                    : state.notInWordLetters.contains(letter)
+                        ? Colors.black.withOpacity(0.25)
+                        : null,
+            child: Text(
+              letter,
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSecondaryContainer
+                        .withOpacity(
+                          state.notInWordLetters.contains(letter) &&
+                                  !state.correctlyPlacedLetters
+                                      .contains(letter) &&
+                                  !state.wronglyPlacedLetters.contains(letter)
+                              ? 0.3
+                              : 1,
+                        ),
+                  ),
             ),
           ),
         ),

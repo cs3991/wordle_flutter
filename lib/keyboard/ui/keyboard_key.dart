@@ -12,19 +12,22 @@ class KeyboardKey extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GameCubit, GameState>(
-      builder: (context, state) {
-        return Ink(
-          height: 50,
-          decoration: BoxDecoration(
-            color: color ?? Theme.of(context).colorScheme.secondaryContainer,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Center(
-            child: child,
-          ),
-        );
-      },
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 2),
+      child: BlocBuilder<GameCubit, GameState>(
+        builder: (context, state) {
+          return Ink(
+            height: 50,
+            decoration: BoxDecoration(
+              color: color ?? Theme.of(context).colorScheme.secondaryContainer,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Center(
+              child: child,
+            ),
+          );
+        },
+      ),
     );
   }
 }
