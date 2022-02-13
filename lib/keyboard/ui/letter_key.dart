@@ -40,7 +40,17 @@ class LetterKey extends StatelessWidget {
               child: Text(
                 letter,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: Theme.of(context).colorScheme.onSecondaryContainer,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSecondaryContainer
+                          .withOpacity(
+                            state.notInWordLetters.contains(letter) &&
+                                    !state.correctlyPlacedLetters
+                                        .contains(letter) &&
+                                    !state.wronglyPlacedLetters.contains(letter)
+                                ? 0.3
+                                : 1,
+                          ),
                     ),
               ),
             ),

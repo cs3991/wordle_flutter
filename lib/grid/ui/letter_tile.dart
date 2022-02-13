@@ -42,7 +42,12 @@ class LetterTile extends StatelessWidget {
               child: Text(
                 letter ?? '',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: Theme.of(context).colorScheme.onTertiaryContainer,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onTertiaryContainer
+                          .withOpacity(
+                            (status == LetterStatus.notInWord) ? 0.3 : 1,
+                          ),
                     ),
               ),
             ),
