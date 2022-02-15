@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         builder: (context, brightness) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            title: 'Wordle',
+            title: 'Wurdle',
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(
                 seedColor: const Color(0xFF241541),
