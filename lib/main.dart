@@ -10,15 +10,10 @@ import 'package:wordle/wordle_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final storage = await HydratedStorage.build(
-    storageDirectory: kIsWeb
-        ? HydratedStorage.webStorageDirectory
-        : await getTemporaryDirectory(),
+  HydratedBloc.storage = await HydratedStorage.build(
+    storageDirectory: kIsWeb ? HydratedStorage.webStorageDirectory : await getTemporaryDirectory(),
   );
-  HydratedBlocOverrides.runZoned(
-    () => runApp(const MyApp()),
-    storage: storage,
-  );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
